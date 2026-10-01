@@ -1,0 +1,48 @@
+39 settings x 12 subjects x 2 protocols
+
+CLAIM ROBUSTNESS
+
+  [34/39] E1 exercise: scalp alone reaches the reported 0.795
+      FAILS in 5
+        broken by: co2_rise_slope=4 (lo)
+        broken by: hypervent_threshold=0.45 (lo)
+        broken by: tcd_noise=2 (hi)
+        broken by: tcd_drift_sd=0.004 (hi)
+        broken by: w_max_mean=0.68 (hi)
+
+  [35/39] E2 exercise: heart rate alone reaches the reported 0.795
+      FAILS in 4
+        broken by: co2_rise_slope=4 (lo)
+        broken by: hypervent_threshold=0.45 (lo)
+        broken by: tcd_drift_sd=0.004 (hi)
+        broken by: w_max_mean=0.68 (hi)
+
+  [32/39] P1 posture: scalp alone reaches the reported 0.799
+      FAILS in 7
+        broken by: mcav_supine_extra=0.02 (lo)
+        broken by: supine_sv_rise=0.4 (lo)
+        broken by: orthostatic_hr=22 (hi)
+        broken by: skin_supine_rise=0 (lo)
+        broken by: skin_co_coupling=0.2 (lo)
+        broken by: tcd_noise=2 (hi)
+        ... and 1 more
+
+  [39/39] P2 posture: cardiac output alone reaches the reported 0.799
+      SURVIVES ALL
+
+  [39/39] P3 posture: the cardiac-output confound is POSITIVE (tracks MCAv)
+      SURVIVES ALL
+
+  [39/39] P4 posture: heart rate alone is NEGATIVE (the paper's own argument)
+      SURVIVES ALL
+
+
+BASELINE VALUES (all parameters at registered defaults)
+  exercise  ceiling +0.924   scalp +0.853   HR +0.868   CO +0.885   reported +0.795
+  posture   ceiling +0.955   scalp +0.842   HR -0.868   CO +0.942   reported +0.799
+
+RANGE OF EACH FLOOR ACROSS THE SWEPT SPACE
+  exercise scalp  |r| from 0.251 to 0.893
+  exercise co     |r| from 0.263 to 0.938
+  posture  scalp  |r| from 0.528 to 0.906
+  posture  co     |r| from 0.844 to 0.965

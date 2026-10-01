@@ -1,0 +1,12 @@
+check,value,expected,source,verdict
+MCAv rise at 30% VO2max (%),11.046,4 to 20,Ogoh & Ainslie 2009; Smith & Ainslie 2017,PASS
+MCAv rise at 50% VO2max (%),20.249,10 to 28,Ogoh & Ainslie 2009; Smith & Ainslie 2017,PASS
+"MCAv at 70% VO2max, back toward baseline (%)",1.018,-12 to 10,Ogoh & Ainslie 2009; Smith & Ainslie 2017,PASS
+supine MCAv above standing (%),13.95,6 to 20,"supine vs upright MCAv, hydrostatic + venous return",PASS
+supine heart rate below standing (bpm),-14.105,-22 to -8,orthostatic HR response,PASS
+sign dissociation: subjects with MCAv up AND HR down (frac),1.0,0.95 to 1.0,the dissociation must hold in essentially every subject,PASS
+VO2 fall from end-exercise to late recovery (%),-69.301,-80 to -50,VO2 off-kinetics,PASS
+HR fall from end-exercise to late recovery (bpm),-74.446,-100 to -45,HR recovery kinetics,PASS
+within-session HR vs VO2 correlation (latent),0.981,0.85 to 0.99,"HR-VO2 within-session r in the literature is high, not 0.55",PASS
+"extracranial fraction beta, cohort median",0.454,0.35 to 0.6,scalp contamination of temple optics,PASS
+beta spread across cohort (max - min),0.323,0.25 to 0.6,"the cohort must span the contamination range, not sit at one value",PASS

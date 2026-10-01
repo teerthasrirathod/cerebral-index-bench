@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cerebral Index Bench</title>
+<meta name="description" content="An independent, pre-registered check of a temple-worn cerebral blood-flow index against its published validation studies, using synthetic and open data.">
+<style>
+:root{
+  --bg:#fbfaf7; --fg:#1d1d1b; --muted:#5f5d57; --rule:#dedbd3; --card:#ffffff;
+  --accent:#1f5f8b; --pass:#2c6e3f; --fail:#9a3b2c; --band:#c9d8e4; --dot:#b4471f;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#151513; --fg:#e8e6e0; --muted:#a3a097; --rule:#33322e; --card:#1d1d1a;
+    --accent:#7fb3d9; --pass:#7cc48f; --fail:#e08a78; --band:#2f4a5f; --dot:#ef8a5c;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font:17px/1.6 Georgia,"Times New Roman",serif;}
+main{max-width:760px;margin:0 auto;padding:40px 16px 80px}
+h1{font-size:1.75rem;line-height:1.25;margin:0 0 .4rem}
+h2{font-size:1.2rem;margin:2.6rem 0 .6rem;padding-top:.6rem;border-top:1px solid var(--rule)}
+h3{font-size:1rem;margin:1.6rem 0 .4rem}
+p,li{max-width:68ch}
+a{color:var(--accent)}
+.by{color:var(--muted);font-size:.95rem;margin:0}
+.note{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:12px 14px;font-size:.95rem;margin:1.2rem 0}
+.wrap{overflow-x:auto;margin:1rem 0}
+table{border-collapse:collapse;font:14px/1.45 -apple-system,"Segoe UI",Roboto,sans-serif;min-width:520px;width:100%}
+th,td{border-bottom:1px solid var(--rule);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--muted)}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.pass{color:var(--pass);font-weight:600}
+.fail{color:var(--fail);font-weight:600}
+code{font:13px/1.4 ui-monospace,Menlo,Consolas,monospace}
+figure{margin:1.2rem 0}
+figcaption{color:var(--muted);font-size:.9rem}
+svg text{font:12px -apple-system,"Segoe UI",Roboto,sans-serif;fill:var(--fg)}
+.small{font-size:.9rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+
+<h1>A timing bracket for a temple-worn cerebral index</h1>
+<p class="by">Teertha Sri Rathod Banoth &middot; undergraduate (BTech Biotechnology, graduating 2027), working independently &middot; <a href="https://orcid.org/0009-0004-5193-3035">ORCID 0009-0004-5193-3035</a></p>
+<p class="by">Last updated 1 October 2026</p>
+
+<div class="note">
+This work is not affiliated with, funded by, or reviewed by Temple Pvt. Ltd. or any institution. It uses only Temple's public preprints, open physiological datasets and synthetic data. Nothing here reconstructs a proprietary algorithm. Every analysis had its rules written down before it was run, and every number links to the code that produced it.
+</div>
+
+<p>Temple's Brain Flow index (Temple-BF) has now been validated against two references: transcranial Doppler, and depth-resolved time-domain NIRS (<a href="https://doi.org/10.64898/2026.09.17.751664">Gulati et al., bioRxiv 2026</a>). The second study is the more informative one, because its reference can separate a brain compartment from a scalp compartment. It also lists its own next steps: a flow-sensitive reference, fuller systemic monitoring, and broader cohorts.</p>
+
+<p>This page asks a narrow question about the TD-NIRS results. Given the published protocol and the published analysis pipeline, what does a correlation of 0.84 to 0.91 have to be read against, and what does the pattern of results imply about the index's own timing? It then sets out one result from open data that bears on the flow-sensitive step the authors name next.</p>
+
+<h2>1. Temple-BF behaves like a ~30 s trailing average</h2>
+
+<p>A reduced 1&nbsp;Hz model was run through the paper's exact pipeline: forward&ndash;backward EMA smoothing, Pearson correlation at every lag from &minus;30 to +30&nbsp;s keeping the maximum, &plusmn;90&nbsp;s and &plusmn;45&nbsp;s transition windows, and standardized Bland&ndash;Altman differences. The brain-layer response kinetics were taken from the paper's own description of its reference (half of peak within 10&ndash;20&nbsp;s, peak at 60&ndash;90&nbsp;s).</p>
+
+<p>Exactly two numbers were used to set the model, both from head-down tilt: the median lag (+14&nbsp;s) and the median lag-adjusted correlation (0.912). That fixed a causal trailing window of <strong>30&nbsp;s</strong>, and it came out at 30&nbsp;s whatever share of brain variance was assumed to follow the protocol blocks. Everything else below is a prediction made without looking at the corresponding value.</p>
+
+<div class="wrap"><table>
+<tr><th>Held-out prediction</th><th>Model</th><th>Published</th><th></th></tr>
+<tr><td>Lag in squat / supine</td><td class="n">+14.5 / +14.0 s</td><td class="n">13&ndash;15 s</td><td class="pass">lands</td></tr>
+<tr><td>Zero-lag &divide; lag-adjusted r is lowest in squat (shortest blocks)</td><td class="n">0.911 / <b>0.872</b> / 0.915</td><td class="n">0.906 / <b>0.832</b> / 0.949</td><td class="pass">lands</td></tr>
+<tr><td>Zero-lag r, head-down tilt</td><td class="n">0.830</td><td class="n">0.826</td><td class="pass">lands</td></tr>
+<tr><td>Standardized bias negative in all three</td><td class="n">&minus;0.37 / &minus;0.66 / &minus;0.34</td><td class="n">&minus;0.51 / &minus;0.44 / &minus;0.25</td><td class="pass">sign lands</td></tr>
+<tr><td>Directional concordance &ge; 95%</td><td class="n">100 / 95 / 100</td><td class="n">100 / 100 / 95</td><td class="pass">lands</td></tr>
+<tr><td>Lag-adjusted r, squat / supine</td><td class="n">0.906 / 0.909</td><td class="n">0.843 / 0.839</td><td class="fail">over by 0.06&ndash;0.07</td></tr>
+<tr><td>Zero-lag r, squat</td><td class="n">0.790</td><td class="n">0.701</td><td class="fail">over</td></tr>
+</table></div>
+<p class="small">Protocol order in every cell: head-down tilt / squat / supine. Model values at an assumed block-locked share of 0.75; other shares in the <a href="https://github.com/teerthasrirathod/cerebral-index-bench/blob/main/tdnirs/FINDINGS-01OCT-tdnirs.md">findings file</a>.</p>
+
+<p>The timing structure of the published table follows from one parameter. A window of roughly half a minute is an ordinary design choice for a 1&nbsp;Hz wearable output, so this is a description, not a criticism. Where the model misses, it is too good: something lowers Temple-BF's agreement in squat and supine that timing does not explain. Raising device noise by 1.4&ndash;1.6&times; in those two protocols reproduces the published values (an exploratory step, labelled as such), which points to protocol-specific motion or a superficial contribution. The model cannot tell which.</p>
+
+<p>One expectation failed and is reported as it was written down in advance: the lag alone does not distinguish a fast, flow-like index from a slow, volume-like one. Both can be made to fit.</p>
+
+<h2>2. Where the evidence sits: head-down tilt</h2>
+
+<p>Two reference points bracket each published correlation. The floor is a signal that carries <em>only the protocol timing</em> and no brain information, with the same device noise and the same pipeline, given its best response time. The ceiling is the true brain signal with the same device noise. Both depend on how much of the brain-layer variance follows the blocks, which only the session data can fix, so the floor is shown as a range.</p>
+
+<figure>
+<svg viewBox="0 0 640 190" width="100%" role="img" aria-label="Floor-to-ceiling ranges for three protocols with the published correlation marked">
+  <g>
+    <text x="0" y="20">correlation</text>
+    <line x1="140" y1="170" x2="620" y2="170" stroke="currentColor" opacity=".35"/>
+    <g opacity=".7">
+      <text x="140" y="186" text-anchor="middle">0.70</text>
+      <text x="260" y="186" text-anchor="middle">0.775</text>
+      <text x="380" y="186" text-anchor="middle">0.85</text>
+      <text x="500" y="186" text-anchor="middle">0.925</text>
+      <text x="620" y="186" text-anchor="middle">1.00</text>
+    </g>
+  </g>
+  <!-- scale: x = 140 + (r-0.70)*1600 -->
+  <g>
+    <text x="0" y="52">Head-down tilt</text>
+    <rect x="220" y="40" width="206" height="16" fill="var(--band)"/>
+    <line x1="500" y1="36" x2="500" y2="60" stroke="var(--muted)" stroke-width="2"/>
+    <circle cx="479" cy="48" r="6" fill="var(--dot)"/>
+    <text x="479" y="32" text-anchor="middle">0.912</text>
+  </g>
+  <g>
+    <text x="0" y="97">Squat</text>
+    <rect x="230" y="85" width="208" height="16" fill="var(--band)"/>
+    <line x1="495" y1="81" x2="495" y2="105" stroke="var(--muted)" stroke-width="2"/>
+    <circle cx="369" cy="93" r="6" fill="var(--dot)"/>
+    <text x="369" y="77" text-anchor="middle">0.843</text>
+  </g>
+  <g>
+    <text x="0" y="142">Supine</text>
+    <rect x="220" y="130" width="206" height="16" fill="var(--band)"/>
+    <line x1="500" y1="126" x2="500" y2="150" stroke="var(--muted)" stroke-width="2"/>
+    <circle cx="362" cy="138" r="6" fill="var(--dot)"/>
+    <text x="362" y="122" text-anchor="middle">0.839</text>
+  </g>
+</svg>
+<figcaption>Shaded: timing-only floor across assumed block-locked shares of 0.60&ndash;0.90. Grey tick: ceiling at 0.75. Dot: published lag-adjusted median.</figcaption>
+</figure>
+
+<div class="wrap"><table>
+<tr><th></th><th>Timing-only floor (share 0.60 / 0.75 / 0.90)</th><th>Ceiling</th><th>Published</th></tr>
+<tr><td>Head-down tilt</td><td class="n">0.750 / 0.817 / 0.879</td><td class="n">0.92&ndash;0.94</td><td class="n">0.912</td></tr>
+<tr><td>Squat</td><td class="n">0.756 / 0.825 / 0.886</td><td class="n">0.91&ndash;0.93</td><td class="n">0.843</td></tr>
+<tr><td>Supine</td><td class="n">0.750 / 0.817 / 0.879</td><td class="n">0.92&ndash;0.94</td><td class="n">0.839</td></tr>
+</table></div>
+
+<p>Head-down tilt is the protocol where Temple-BF sits well above anything protocol timing alone can produce, at every assumed share. In squat and supine the published values sit close to the timing-only floor, and below it at the highest share (a verdict that softens if the device is noisier in those protocols, as section 1 suggests). This agrees, protocol for protocol, with the paper's own brain-minus-scalp contrast: 0.333 in head-down tilt, 0.110 in squat, 0.036 (not significant) in supine. Two independent routes point to the same protocol as the one carrying the evidence for cerebral specificity.</p>
+
+<h2>3. A flow-sensitive step with an opposite-sign control</h2>
+
+<p>The paper names a flow-sensitive reference and end-tidal CO<sub>2</sub> monitoring as next steps. Open data already shows why a CO<sub>2</sub> challenge is a strong candidate for that step. In the PhysioNet <a href="https://physionet.org/content/cerebral-vasoreg-diabetes/1.0.0/">Cerebral Vasoregulation in Diabetes</a> cohort (adults aged 55&ndash;75, roughly half diabetic), across paired hypocapnic and hypercapnic challenges, within subjects:</p>
+
+<div class="wrap"><table>
+<tr><th>Compartment</th><th>Response to end-tidal CO<sub>2</sub></th><th>Consistency</th></tr>
+<tr><td>Cerebral (bilateral MCA velocity)</td><td class="n">+2.3 to +3.3 %/mmHg across 360 analysis settings (median 3.02)</td><td>positive in 21 of 21 subjects</td></tr>
+<tr><td>Peripheral artery velocity</td><td class="n">&minus;1.04 %/mmHg</td><td>negative in 16 of 21; permutation p = 0.011</td></tr>
+<tr><td>Arterial pressure</td><td class="n">R&sup2; 0.000</td><td>no response</td></tr>
+</table></div>
+
+<p>Heart rate adds 0.0003 to the R&sup2; of the cerebral model, and arterial pressure adds 0.0001. Under CO<sub>2</sub>, the cerebral and peripheral circulations move in <em>opposite</em> directions while systemic pressure does not move. An index carrying cerebral information has to go up, and an extracranial or systemic signal has to go down or stay flat. A confounded signal cannot imitate the cerebral response, because the confound moves the other way. That makes the opposite-sign channel a negative control, not just a weaker correlation.</p>
+
+<p>Two protocol details came out of the same data. <strong>Inspired CO<sub>2</sub>, not breath-hold</strong>: breath-hold couples hypercapnia to falling O<sub>2</sub> (32 of 41 runs, p = 0.0002 in an open breath-hold dataset), and hypoxia is itself a cerebral vasodilator. <strong>Declare the summary statistic</strong>: the peripheral effect lives in diastole and disappears in an epoch mean (&minus;1.04 %/mmHg in mean flow velocity against &minus;0.14 in the arithmetic mean).</p>
+
+<p>Caveats carried throughout: these are velocities, not flows, and only relative change is claimed. The optical arm is still open. Two attempts to show the same contrast in an optical signal from open data, prefrontal NIRS under orthostatic challenge and scanner pulse oximetry under breath-hold, both returned nulls. That gap needs a recording made for the purpose, or an existing one.</p>
+
+<h2>4. What session data would settle</h2>
+<ol>
+<li><strong>The block-locked share</strong> of brain-layer variance, which fixes the floor in section 2.</li>
+<li><strong>The residual correlation</strong>: Temple-BF against brain-layer HbO after the block-locked mean is removed. A timing-only signal cannot produce it.</li>
+<li><strong>The squat and supine shortfall</strong>: device noise from motion, or a difference in content.</li>
+<li><strong>The window</strong>: one step-response trace of Temple-BF v10.0 confirms or rules out the ~30 s figure.</li>
+</ol>
+
+<h2>Method and files</h2>
+<p>Each analysis follows the same rule: inclusion criteria, epochs and pass/fail tests are written down before any result is computed, and anything changed afterwards is recorded as a change.</p>
+<ul>
+<li><a href="https://github.com/teerthasrirathod/cerebral-index-bench/blob/main/tdnirs/PREREG-01OCT-tdnirs.md">Pre-registration</a>, <a href="https://github.com/teerthasrirathod/cerebral-index-bench/blob/main/tdnirs/FINDINGS-01OCT-tdnirs.md">findings</a> and <a href="https://github.com/teerthasrirathod/cerebral-index-bench/blob/main/tdnirs/sim.py">code</a> for sections 1&ndash;2 (runs in about 90 s with numpy and scipy).</li>
+<li><a href="https://github.com/teerthasrirathod/cerebral-index-bench/blob/main/bench/SPEC.md">Synthetic cohort specification</a> and <a href="https://github.com/teerthasrirathod/cerebral-index-bench/tree/main/bench/src">generator</a> (64&nbsp;Hz two-channel temple sensor, seeded, with 11 physiology checks against published ranges).</li>
+<li><a href="https://github.com/teerthasrirathod/cerebral-index-bench/tree/main/co2">CO<sub>2</sub> analysis code</a> for section 3, with every reduction declared in one module.</li>
+</ul>
+<p>Earlier work, same method: <a href="https://doi.org/10.21203/rs.3.rs-11004484/v1">An undeclared free parameter underneath in vitro microelectrode array metrics</a> (Research Square preprint, 2026).</p>
+
+<p class="small">Repository: <a href="https://github.com/teerthasrirathod/cerebral-index-bench/">github.com/teerthasrirathod/cerebral-index-bench</a> &middot; Contact: <a href="mailto:teerthasrirathodbanoth@gmail.com">teerthasrirathodbanoth@gmail.com</a> &middot; Text CC BY 4.0, code MIT.</p>
+
+</main>
+</body>
+</html>

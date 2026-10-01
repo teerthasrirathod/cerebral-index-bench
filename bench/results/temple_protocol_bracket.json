@@ -1,0 +1,26 @@
+{
+ "source": "Kumar/van Rosmalen et al., medRxiv 10.64898/2026.09.02.26362022 (4 Sep 2026)",
+ "bench": "temple-bench re-run on the published protocol; reference channel calibrated to the paper's own reported MCAv transition magnitudes",
+ "exercise": {
+  "ceiling_true_mcav": 0.915,
+  "scalp_only_floor": 0.806,
+  "heart_rate_alone": 0.861,
+  "cardiac_output_alone": 0.871,
+  "best_scalp_plus_hr": 0.864,
+  "reported": 0.795,
+  "reported_lag_opt": 0.837
+ },
+ "posture": {
+  "ceiling_true_mcav": 0.95,
+  "scalp_only_floor": 0.628,
+  "heart_rate_alone": -0.859,
+  "cardiac_output_alone": 0.935,
+  "best_scalp_plus_hr": 0.871,
+  "reported": 0.799,
+  "reported_lag_opt": 0.817
+ },
+ "modelled_supine_vs_standing": {
+  "cardiac_output_pct": 5.604767282835765,
+  "heart_rate_bpm": -13.999454359657886
+ }
+}
